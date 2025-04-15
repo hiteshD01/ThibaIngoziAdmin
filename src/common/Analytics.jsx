@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-    useGetChartData,
-    useGetHotspot,
-    useGetUserList,
-    useGetNotificationType,
-} from "../API Calls/API";
+import { useGetChartData, useGetHotspot, useGetUserList, useGetNotificationType, useGetUser } from "../API Calls/API";
 import Loader from "./Loader";
 import { FaLocationDot } from "react-icons/fa6";
 import CustomChart from "./CustomChart";
@@ -21,6 +16,7 @@ const Analytics = ({ id }) => {
 
     const driverList = useGetUserList("driver list", "driver", id);
     const companyList = useGetUserList("company list", "company");
+    const userDetails = useGetUser(id);
     const hotspot = useGetHotspot(time, id, selectedNotification);
     const chartData = useGetChartData(selectedNotification);
 
@@ -124,7 +120,7 @@ const Analytics = ({ id }) => {
                 </div>
             ) : (
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                         <div className="dash-counter">
                             <span>Active Users</span>
                             <h3>
@@ -132,7 +128,25 @@ const Analytics = ({ id }) => {
                             </h3>
                         </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
+                        <div className="dash-counter">
+                            <span>Driver Armed SOS Split Amount</span>
+                            <h3>{userDetails.data?.data.totalDriverAmount || 0}</h3>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="dash-counter">
+                            <span>Company Armed SOS Split Amount</span>
+                            <h3>{userDetails.data?.data.totalCompanyAmount || 0}</h3>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="dash-counter">
+                            <span>Google Map API</span>
+                            <h3>{userDetails.data?.data.totalGoogleMapApi || 0}</h3>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
                         <div className="dash-counter">
                             <span>Users Active {timeTitle}</span>
                             <h3>
